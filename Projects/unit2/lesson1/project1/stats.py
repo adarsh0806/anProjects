@@ -43,35 +43,3 @@ max(df['Tobacco']) - min(df['Tobacco'])
 
 print "\nThe standard deviation of Tobacco consumption is:",df['Tobacco'].std() 
 print "\nThe variance of Tobacco consumption is:",df['Tobacco'].var() 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

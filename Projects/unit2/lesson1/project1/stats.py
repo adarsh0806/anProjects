@@ -41,9 +41,8 @@ print "\nThe variance Alcohol consumption is:",df['Alcohol'].var()
 
 max(df['Tobacco']) - min(df['Tobacco'])
 
-df['Tobacco'].std() 
-
-df['Tobacco'].var() 
+print "\nThe standard deviation Tobacco consumption is:",df['Tobacco'].std() 
+print "\nThe standard deviation Tobacco consumption is:",df['Tobacco'].var() 
 
 
 

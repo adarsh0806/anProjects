@@ -40,17 +40,17 @@ with con:
     # GROUP BY warm_month 
     # HAVING AVG(average_high) > 65;
 
-    select distinct c.name, c.state 
-    from cities c, weather w
-    inner join weather 
-    on c.name = w.city and w.warm_month = 'July'
+    # select distinct c.name, c.state 
+    # from cities c, weather w
+    # inner join weather 
+    # on c.name = w.city and w.warm_month = 'July'
     
 
 
-    SELECT warm_month, AVG(average_high) 
-    FROM weather 
-    GROUP BY warm_month 
-    HAVING AVG(average_high) > 65;
+    # SELECT warm_month, AVG(average_high) 
+    # FROM weather 
+    # GROUP BY warm_month 
+    # HAVING AVG(average_high) > 65;
 
 
 

@@ -35,14 +35,14 @@ print "\nThe median Tobacco consumption is:",df['Tobacco'].median()
 
 max(df['Alcohol']) - min(df['Alcohol'])
 
-print "\nThe standard deviation Alcohol consumption is:",df['Alcohol'].std() 
-print "\nThe variance Alcohol consumption is:",df['Alcohol'].var() 
+print "\nThe standard deviation of Alcohol consumption is:",df['Alcohol'].std() 
+print "\nThe variance Alcohol of consumption is:",df['Alcohol'].var() 
 
 
 max(df['Tobacco']) - min(df['Tobacco'])
 
-print "\nThe standard deviation Tobacco consumption is:",df['Tobacco'].std() 
-print "\nThe standard deviation Tobacco consumption is:",df['Tobacco'].var() 
+print "\nThe standard deviation of Tobacco consumption is:",df['Tobacco'].std() 
+print "\nThe variance of Tobacco consumption is:",df['Tobacco'].var() 
 
 
 

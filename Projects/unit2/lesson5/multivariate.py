@@ -18,10 +18,11 @@ How does this impact the new model?
 #Remove % from int_rate
 clean_ir = ir.map(lambda x: float(x.rstrip('%')))
 clean_ai = ai.map(lambda x: float(x))
-clean_ho = ho.map(lambda x: 5*(x == 'RENT') + 10*(x == 'MORTGAGE'))
+clean_ho = ho.map(lambda x: 5 if x == 'RENT' else 10)
 ir = clean_ir
 ai = clean_ai
 ho = clean_ho
+
 
 #Create new dataframe with annual_inc,int_rate,home_ownership for analysis
 new_df = pd.DataFrame(columns = ['Home_Ownership','Interest_Rate','Annual_Income'])

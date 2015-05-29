@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import string
 import statsmodels.api as sm
 
-loansData = pd.read_csv('loansData.csv')
+loansData = pd.read_csv('loansData.csv', nrows = 5)
 loansData.dropna(inplace = True)
 df = pd.DataFrame(loansData)
 
@@ -16,7 +16,7 @@ ll = df['Loan.Length']
 fr = df['FICO.Range']
 ar = df['Amount.Requested']
 
-clean_ir = ir.map(lambda x: float(x.rstrip('%')), 4)
+clean_ir = ir.map(lambda x: float(x.rstrip('%')))
 clean_ll = ll.map(lambda x: x.rstrip(' months'))
 fs = [int(i.split('-')[0]) for i in fr]
 

@@ -23,7 +23,6 @@ ir = clean_ir
 ai = clean_ai
 ho = clean_ho
 
-
 #Create new dataframe with annual_inc,int_rate,home_ownership for analysis
 new_df = pd.DataFrame(columns = ['Home_Ownership','Interest_Rate','Annual_Income'])
 new_df['Home_Ownership'] = ho

@@ -1,4 +1,3 @@
-
 # UNDERLYING MISSION
 # The goal is determine the station with the most change in that hour
 import time
@@ -35,8 +34,3 @@ con.commit()
 time.sleep(60)
 
 con.close()
-
-
-
-
-

@@ -15,7 +15,7 @@ for station in r.json()['stationBeanList']:
 	for key in station.keys():
 		if key not in key_list:
 			key_list.append(key)
-#pprint.pprint(key_list)
+pprint.pprint(key_list)
 
 #Getting Data into a DataFrame
 df = json_normalize(r.json()['stationBeanList'])

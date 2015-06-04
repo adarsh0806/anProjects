@@ -118,8 +118,9 @@ with con:
 #sleep(60)
 #The code only needs to run for an hour. If it's sleeping every minute, the code only needs to loop 60 times
 
-
-
+#Analyzing the result
+df1 = pd.read_sql_query("SELECT * FROM available_bikes ORDER BY execution_time", con, index_col = 'execution_time')
+pprint.pprint(df1)
 
 
 

@@ -30,17 +30,16 @@ import sqlite3 as lite
 # 			"Washington":'38.904103,-77.017229'
 #         }
 
-cities = { "Atlanta": '33.762909,-84.422675',
-            "Austin": '30.303936,-97.754355'
+cities = { "Atlanta": '33.762909,-84.422675'
+            #"Austin": '30.303936,-97.754355'
          }
 
 #current date
 end_date = datetime.datetime.now()
-#30 days prior to today
+#7 days prior to today
 start_date = end_date - datetime.timedelta(days = 7)
 
-print "Start data (7 days ago): ",start_date
-#pprint.pprint(r.json())
+
 con = lite.connect('weather3.db')
 cur = con.cursor()
 
@@ -79,10 +78,24 @@ with con:
 	x = cur.execute("SELECT day_of_reading,city,max_temp FROM daily_temp;")
 	temp_list = []
 	for row in x:
-		print "Day of reading: ", row[0]
 		print "City: ", row[1]
+		print "Day of reading: ", row[0]
 		print "Max temperature : ", row[2]
-		
+		temp_list.append(row[2])
+
+	print "Temperature list :",temp_list
+	mean = reduce(lambda x,y: x+y, temp_list)/len(temp_list)
+	#print "Mean temperature recorded in " + row[1] + " is " + mean
+	print "Mean :",mean
+
+
+	# df = pd.DataFrame(index = ,columns =)
+	# print df
+
+	# print "Temperature list :",temp_list
+	# mean = reduce(lambda x,y: x+y, temp_list)/len(temp_list)
+	# #print "Mean temperature recorded in " + row[1] + " is " + mean
+	# print "Mean :",mean
 
 con.close()
 

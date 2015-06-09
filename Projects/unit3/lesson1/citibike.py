@@ -14,7 +14,7 @@ from time import sleep
 import datetime
 
 
-con = lite.connect('citi_bike.db')
+con = lite.connect('citi_bike2.db')
 cur = con.cursor()
 r = requests.get('http://www.citibikenyc.com/stations/json')
 key_list = []
@@ -110,10 +110,10 @@ for station in r.json()['stationBeanList']:
 
 #Now update the values in the defaultdict in the database as the column name can't start with a number
 with con:
-    for k,v in id_bikes.iteritems():
-        #strftime() is formatting the time into what's called Unix time, or Epoch time. It's the number of seconds since 1 January 1970 00:00:00 UTC.
-        cur.execute("UPDATE available_bikes SET _" + str(k) + " = " + str(v) + " WHERE execution_time =" + exec_time.strftime('%s') + ";")
-
+        for k,v in id_bikes.iteritems():
+            #strftime() is formatting the time into what's called Unix time, or Epoch time. It's the number of seconds since 1 January 1970 00:00:00 UTC.
+            cur.execute("UPDATE available_bikes SET _" + str(k) + " = " + str(v) + " WHERE execution_time =" + exec_time.strftime('%s') + ";")
+        
 
 #Challenges
 #The code then needs to sleep for a minute and then perform the same task
@@ -121,10 +121,9 @@ with con:
 #The code only needs to run for an hour. If it's sleeping every minute, the code only needs to loop 60 times
 
 #Analyzing the result
-df1 = pd.read_sql_query("SELECT * FROM available_bikes ORDER BY execution_time LIMIT 1", con, index_col = 'execution_time')
+
+df1 = pd.read_sql_query("SELECT * FROM available_bikes ORDER BY execution_time", con, index_col = 'execution_time')
 pprint.pprint(df1)
-
-
 '''
 Aim: To collect and store the change for each station every minute.
 The goal is to record the number of bikes available every minute for an hour across all of 
@@ -142,7 +141,10 @@ How to calculate the activity?
 hour_change = collections.defaultdict(int)
 # print df1.columns
 # print "df1.index: ",list(df1.index)
+
+
 for col in df1.columns:
+    print "col :", col
     station_vals = df1[col].tolist() #available bikes per station
     station_ids = col[1:] #trim the "_"
     station_change = 0
@@ -153,6 +155,8 @@ for col in df1.columns:
         #v = bikes available
         # print "k = ",k
         # print "len(station_vals) - 1 = ",len(station_vals) - 1
+        print "k = ",k
+        print "v = ",v
         if k < len(station_vals) - 1:
             station_change += abs(station_vals[k] - station_vals[k+1])
             print "station_change :",station_change

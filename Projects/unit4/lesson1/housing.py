@@ -6,32 +6,41 @@ from sklearn.cross_validation import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 import pprint
 
+#read data in
 df = pd.read_excel("rollingsales_manhattan.xls", skiprows = 4, nrows = 15)
-#print df.head()
-dfTrain, dfTest = train_test_split(df, test_size = 0.2)
-print "dfTrain: \n"
-pprint.pprint(dfTrain)
-print "dfTest: \n"
-pprint.pprint(dfTest)
-true_labels = dfTest[:,2]
-#print "true_labels: \n", true_labels
 
-# for k in range(1,20):
-# 	model = KNeighborsClassifier(n_neighbors = 3)
-# 	model.fit(dfTrain[:,:2])
+#split data into training and test sets
+dfTrain, dfTest = train_test_split(df, test_size = 0.2)
+
+# true_labels = dfTest[:,8]
+# print "true_labels: \n", true_labels
 
 '''
 mylist[X:Y]
 X is the index of the first element you want.
 Y is the index of the first element you don't want.
-
+[start:end:step] # start through not past end, by step
 '''
+knn_features = ['Area','Type']
+l = len(knn_features)
 
-r = []
+#training data
+print "training data: ",dfTrain[:,:l]
+#target values
+print "target values :",dfTrain[:,l]
 
+#find the best k for KNN
+#UNSURE + ERRORS HERE
+for k in range(1,20):
+	model = KNeighborsClassifier(n_neighbors = k,algorithm = 'auto')
+	#fit(X, y) -> Fit the model using X as training data and y as target values
+	model.fit(dfTrain[:,:l], dfTrain[:,l])
+	#training data is the target values
+	expected = dfTest[:,l]
+	#target values 
+	predicted = model.predict(dfTest[:,:l])
+	#misclassification rate
+	mr = (predicted != expected).mean()
+	print mr
+    
 
-# print dfTrain[:,:2]
-# print "\n\n"
-# print dfTrain[:,2]
-# print "\n\n"
-# print dfTrain

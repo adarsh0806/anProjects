@@ -29,9 +29,9 @@ def spam_prob(word):
 	#count the number of occurrances of 'word' (taken in argument) in spam
 	#p(word|spam)
 	#grep -il meeting enron1/spam/*.txt | wc -l
-	cmd1 = 'grep -il ' + word + ' ' + spamdir + '/*.txt'
-	word_count_spam = len(subprocess.check_output([cmd1], shell = True).splitlines())
-	print "word_count_spam : ", word_count_spam
+	cmd1 = 'grep -il ' + word + ' ' + spamdir + '/*.txt | wc -l'
+	word_count_spam = float(subprocess.check_output([cmd1], shell = True))
+	#print "word_count_spam : ", word_count_spam
 	#p(meeting|spam)
 	p_word_spam = word_count_spam/num_spam
 	#probability of finding 'meeting' given we know its spam
@@ -40,9 +40,9 @@ def spam_prob(word):
 	#count the number of occurrances of 'word' (taken in argument) in ham
 	#p(word|ham)
 	#grep -il meeting enron1/ham/*.txt | wc -l
-	cmd = 'grep -il ' + word + ' ' + 'enron1/ham/*.txt'
-	word_count_ham = len(subprocess.check_output([cmd], shell=True).splitlines())
-	print "word_count_ham : ", word_count_ham
+	cmd = 'grep -il ' + word + ' ' + 'enron1/ham/*.txt | wc -l'
+	word_count_ham = float(subprocess.check_output([cmd], shell=True))
+	#print "word_count_ham : ", word_count_ham
 	# p(meeting|ham)
 	p_word_ham = word_count_ham/num_ham
 	#probability of finding 'meeting' given we know its ham
@@ -52,11 +52,14 @@ def spam_prob(word):
 	#p(spam|meeting) = p(meeting|spam) * p(spam)/p(meeting)
 	#prob of an email being spam, given the word meeting is in it
 	final_prob = p_word_spam * (p_spam/p_word)
-	print "Probability of an email being spam, given the word meeting is in it: ", final_prob
+	print "Probability of an email being spam, given the presence of the word "
+	print word + " is in it: ", final_prob
 	return final_prob
 
 
 spam_prob('meeting')
+
+
 
 
 

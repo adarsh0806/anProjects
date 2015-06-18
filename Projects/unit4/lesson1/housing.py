@@ -43,4 +43,3 @@ for k in range(1,20):
 	mr = (predicted != expected).mean()
 	print mr
     
-

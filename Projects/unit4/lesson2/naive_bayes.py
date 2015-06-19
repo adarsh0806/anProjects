@@ -104,10 +104,74 @@ def summarizeByClass(dataset):
 
 
 #STEP 3: MAKE PREDICTION - make predictions using the summaries prepared from our training data
+'''
+Calculate Gaussian probability density function
+Calculate Class probabilities
+Make PREDICTION and then estimate ACCURACY
+'''
+#Gaussian PDF - to estimate the probability of a given attribute value, 
+#given the known mean and standard deviation for the attribute 
+#estimated from the training data
+#We are plugging in our known values(attribute value, mean, std dev) into the GAUSSIAN
+#equation and finding the likelihood of the attribute belonging to a certain class
+
+def calculateGaussianProb(x, mean, stdev):
+	exponent = math.exp(-(math.pow(x-mean,2)/(2*math.pow(stdev,2))))
+	return (1 / (math.sqrt(2*math.pi) * stdev)) * exponent
+
+#Calculate the class probabilities
+#That is, probability of the entire data instance belonging to the class.
+def calculateClassProb(summaries, inputVector):
+	probabilities = {}
+	for classValue, classSummaries in summaries.iteritems():
+		print "classValue: ", classValue
+		print "classSummaries: ", classSummaries
+		probabilities[classValue] = 1
+		for i in range(len(classSummaries)):
+			mean, stdev = classSummaries[i]
+			x = inputVector[i]
+			print "x = ",x
+			#finding the probabilities of the attribute being in each class
+			#by multiplying with the gaussian prob function
+			probabilities[classValue] *= calculateGaussianProb(x, mean, stdev)
+			print "probabilities[classValue]: ", probabilities[classValue]
+	return probabilities
+
+#Making the prediction
+#Now that we can calculate the probability of a data instance belonging to each class value,
+#we can look for the largest probability and return the associated class.
+def predict(summaries, inputVector):
+	probabilities = calculateClassProb(summaries, inputVector)
+	bestLabel, bestProb = None, -1
+	for classValue, probability in probabilities.iteritems():
+		print "\nclassValue: ", classValue
+		print "probability: ", probability
+		if bestLabel is None or probability > bestProb:
+			bestProb = probability
+			print "bestProb: ", bestProb
+			bestLabel = classValue
+			print "bestLabel: ", bestLabel
+	return bestLabel
 
 
+#STEP 4: MAKE PREDICTIONS
+#we can estimate the accuracy of the model by making predictions for each 
+#data instance in our test dataset. 
+def getPredictions(summaries, testSet):
+	predictions = []
+	for i in range(len(testSet)):
+		result = predict(summaries, testSet[i])
+		print "result: ", result
+		predictions.append(result)
+	return predictions
 
-
+#STEP 5: ACCURACY
+def getAccuracy(testSet, predictions):
+	correct = 0
+	for x in range(len(testSet)):
+		if testSet[x][-1] == predictions[x]:
+			correct += 1
+	return (correct/float(len(testSet))) * 100
 
 
 
@@ -124,5 +188,26 @@ print "Split {0} rows into training set with \n\n{1} \n\nand test with \n\n{2}".
 separated = separateByClass(dataset)
 print "Separated instances by class: {0}".format(separated)
 
-print "Summary by attribute: ",summarize(dataset)
-print "Summary by class value \n", summarizeByClass(dataset)
+print "Summary by attribute: \n\n",summarize(dataset)
+print "Summary by class value \n\n", summarizeByClass(dataset)
+
+print "Probability of belonging to this class",calculateGaussianProb(71,73,6.2)
+
+summaries = {0:[(1,0.5)], 1:[(20,5)]}
+inputVector = [1.1, '?']
+print "Probabilities for each class: \n\n ", calculateClassProb(summaries, inputVector)
+
+summaries = {'A':[(1, 0.5)], 'B':[(20, 5.0)]}
+inputVector = [1.1, '?']
+print "Prediction: ",predict(summaries, inputVector)
+
+
+summaries = {'A':[(1, 0.5)], 'B':[(20, 5.0)]}
+testSet = [[1.1, '?'], [19.1, '?']]
+predictions = getPredictions(summaries, testSet)
+print('Predictions: {0}').format(predictions)
+
+testSet = [[1,1,1,'a'], [2,2,2,'a'], [3,3,3,'b']]
+predictions = ['a', 'a', 'a']
+accuracy = getAccuracy(testSet, predictions)
+print('Accuracy: {0}').format(accuracy)

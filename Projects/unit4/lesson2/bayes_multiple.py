@@ -74,17 +74,3 @@ for word in df['word'].values:
 	df['wj'] = np.log(theta/1-theta)
 print "df['theta'] :\n",df['theta']
 print "df['wj']: \n", df['wj']
-	
-
-
-
-
-
-
-
-
-
-
-
-
-

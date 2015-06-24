@@ -4,6 +4,7 @@
 
 import numpy as np
 import pandas as pd
+import seaborn as sns
 import ggplot
 import matplotlib.pyplot as plt
 from sklearn.ensemble import RandomForestClassifier
@@ -49,9 +50,17 @@ rforest = rforest.fit(training_set, target)
 #Predict the district based on the crime
 output = rforest.predict(dfTrain.ix[:,'Category':])
 #Make the prediction readable
-dfOut = pd.DataFrame(dfTest['PdDistrict'].values, columns = ['District'])
+dfOut = pd.DataFrame(dfTest['PdDistrict'].values, columns = ['PdDistrict'])
 dfOut['Category'] = output
 
 print dfOut.head()
 
+#visualization
+plt.figure()
+#x axis - category, y axis - district
+plt.title('Crime by District')
+plt.xlabel('Category of Crime')
+plt.ylabel('District in San Francisco')
+plt.bar(dfOut['Category'], dfOut['PdDistrict'])
+plt.show()
 

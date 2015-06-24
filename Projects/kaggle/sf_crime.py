@@ -1,6 +1,9 @@
 #From Kaggle competition - https://www.kaggle.com/c/sf-crime/data?test.csv.zip
-#Predict the category of crimes that occurred in San Francisco by the district
 #https://www.kaggle.com/c/digit-recognizer/forums/t/2299/getting-started-python-sample-code-random-forest
+
+##################################### TASK #####################################
+#Predict the category of crimes that occurred in San Francisco by the district
+#################################################################################
 
 import numpy as np
 import pandas as pd
@@ -25,6 +28,35 @@ Y - Latitude
 Ones that are needed:
 Category -> target variable that needs to be predicted
 PdDistrict
+
+
+Plot Legend
+
+Crime Category:
+0 - asault
+1 - burglary
+2 - drunkenness
+3 - larceny/theft
+4 - non criminal
+5 - other offenses
+6 - robbery
+7 - suspicious occ
+8 - vandalism
+9 - vehicle theft
+10 - warrants
+11 - weapon laws
+
+District:
+0 - Bayview
+1 - Central
+2 - Ingleside
+3 - Mission
+4 - Northern
+5 - Park
+6 - Richmond
+7 - Southern
+8 - Taraval
+9 - Tenderloin
 '''
 #DATA SET - https://www.kaggle.com/c/sf-crime/data
 dfTest = pd.read_csv('test.csv', header = 0, nrows = 100)
@@ -40,8 +72,7 @@ dfTrain['Category'] = pd.Categorical(dfTrain.Category).codes
 dfTrain['PdDistrict'] = pd.Categorical(dfTrain.PdDistrict).codes
 dfTest['PdDistrict'] = pd.Categorical(dfTest.PdDistrict).codes
 
-
-#Random Forest
+#Making prediction of Crime by District using Random Forest ML Algorithm
 rforest = RandomForestClassifier(n_estimators = 100)
 training_set = dfTrain.ix[:,'Category':]
 target = dfTrain['Category']
@@ -53,14 +84,30 @@ output = rforest.predict(dfTrain.ix[:,'Category':])
 dfOut = pd.DataFrame(dfTest['PdDistrict'].values, columns = ['PdDistrict'])
 dfOut['Category'] = output
 
-print dfOut.head()
-
-#visualization
+#Visualization of the predicted model
 plt.figure()
 #x axis - category, y axis - district
-plt.title('Crime by District')
-plt.xlabel('Category of Crime')
-plt.ylabel('District in San Francisco')
-plt.bar(dfOut['Category'], dfOut['PdDistrict'])
+plt.title('Crime Prediction by District')
+plt.ylabel('Category of Crime')
+plt.xlabel('District in San Francisco')
+plt.bar(dfOut['PdDistrict'], dfOut['Category'])
 plt.show()
 
+##################################### ANALYSIS #####################################
+#Based on the algorithm our prediction of the category of crimes that occurred in 
+#San Francisco by the district are:
+####################################################################################
+'''
+Based on the algorithm our prediction of the category of crimes that occurred in San Francisco by the district are:
+
+Bayview 	- 	warrants	
+Central 	- 	warrants
+Ingleside 	- 	warrants
+Mission 	- 	vandalism
+Northern 	- 	vehicle theft
+Park 		- 	other offenses
+Richmond 	- 	warrants
+Southern	-	warrants
+Taraval		-	weapon laws
+Tenderloin	-	non criminal
+'''

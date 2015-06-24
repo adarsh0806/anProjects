@@ -86,7 +86,6 @@ dfOut['Category'] = output
 
 #Visualization of the predicted model
 plt.figure()
-#x axis - category, y axis - district
 plt.title('Crime Prediction by District')
 plt.ylabel('Category of Crime')
 plt.xlabel('District in San Francisco')
